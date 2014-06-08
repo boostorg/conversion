@@ -1,0 +1,16 @@
+{
+    "key": "conversion",
+    "name": "Conversion",
+    "authors": [
+        "Dave Abrahams",
+        "Kevlin Henney"
+    ],
+    "description": "Polymorphic and lexical casts.",
+    "category": [
+        "Miscellaneous",
+        "String"
+    ],
+    "maintainers": [
+        "Antony Polukhin <antoshkka -at- gmail.com>"
+    ]
+}
