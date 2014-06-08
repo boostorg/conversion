@@ -5,7 +5,7 @@
         "Dave Abrahams",
         "Kevlin Henney"
     ],
-    "description": "Polymorphic and lexical casts.",
+    "description": "Polymorphic casts.",
     "category": [
         "Miscellaneous",
         "String"
