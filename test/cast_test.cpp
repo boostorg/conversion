@@ -16,7 +16,7 @@
 #include <iostream>
 #include <climits>
 #include <cfloat>   // for DBL_MAX (Peter Schmid)
-#include <boost/cast.hpp>
+#include <boost/polymorphic_cast.hpp>
 
 #  if SCHAR_MAX == LONG_MAX
 #      error "This test program doesn't work if SCHAR_MAX == LONG_MAX"
