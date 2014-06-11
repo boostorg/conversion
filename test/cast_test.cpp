@@ -14,13 +14,7 @@
 //    3 Aug 99  Initial Version
 
 #include <iostream>
-#include <climits>
-#include <cfloat>   // for DBL_MAX (Peter Schmid)
 #include <boost/polymorphic_cast.hpp>
-
-#  if SCHAR_MAX == LONG_MAX
-#      error "This test program doesn't work if SCHAR_MAX == LONG_MAX"
-#  endif
 
 using namespace boost;
 using std::cout;

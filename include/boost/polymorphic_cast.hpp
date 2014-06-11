@@ -48,9 +48,6 @@
 # include <boost/config.hpp>
 # include <boost/assert.hpp>
 # include <typeinfo>
-# include <boost/type.hpp>
-# include <boost/limits.hpp>
-# include <boost/detail/select_type.hpp>
 
 namespace boost
 {
