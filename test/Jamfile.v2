@@ -24,7 +24,6 @@ test-suite conversion
   : [ run implicit_cast.cpp ]
     [ compile-fail implicit_cast_fail.cpp ]
     [ run cast_test.cpp ]
-    [ run numeric_cast_test.cpp ]
     [ run polymorphic_cast_test.cpp ]
     [ compile-fail implicit_cast_fail2.cpp ]
   ;
