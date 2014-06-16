@@ -10,8 +10,6 @@ import feature ;
 
 project
     : requirements
-        <library>/boost/test//boost_unit_test_framework
-        <link>static
         <toolset>gcc-4.7:<cxxflags>-ftrapv
         <toolset>gcc-4.6:<cxxflags>-ftrapv
         <toolset>clang:<cxxflags>-ftrapv
@@ -26,6 +24,6 @@ test-suite conversion
   : [ run implicit_cast.cpp ]
     [ compile-fail implicit_cast_fail.cpp ]
     [ run cast_test.cpp ]
-    [ run numeric_cast_test.cpp ]
+    [ run polymorphic_cast_test.cpp ]
+    [ compile-fail implicit_cast_fail2.cpp ]
   ;
-
