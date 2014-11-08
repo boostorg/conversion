@@ -4,6 +4,7 @@
 // Copyright 1999 Beman Dawes
 // Copyright 1999 Dave Abrahams
 // Copyright 2014 Peter Dimov
+// Copyright 2014 Boris Rasin
 //
 // Distributed under the Boost Software License, Version 1.0.
 //
@@ -115,6 +116,24 @@ static void test_polymorphic_downcast()
     delete base;
 }
 
+static void test_polymorphic_pointer_downcast()
+{
+    Base * base = new Derived;
+
+    Derived * derived = boost::polymorphic_pointer_downcast<Derived>( base );
+
+    BOOST_TEST( derived != 0 );
+
+    if( derived != 0 )
+    {
+        BOOST_TEST_EQ( derived->kind(), "Derived" );
+    }
+
+    // polymorphic_pointer_downcast can't do crosscasts
+
+    delete base;
+}
+
 static void test_polymorphic_cast_fail()
 {
     Base * base = new Base;
@@ -139,12 +158,29 @@ static void test_polymorphic_downcast_fail()
     delete base;
 }
 
+static void test_polymorphic_pointer_downcast_fail()
+{
+    Base * base = new Base;
+
+    int old_count = assertion_failed_count;
+    expect_assertion = true;
+
+    boost::polymorphic_pointer_downcast<Derived>( base ); // should assert
+
+    BOOST_TEST_EQ( assertion_failed_count, old_count + 1 );
+    expect_assertion = false;
+
+    delete base;
+}
+
 int main()
 {
     test_polymorphic_cast();
     test_polymorphic_downcast();
+    test_polymorphic_pointer_downcast();
     test_polymorphic_cast_fail();
     test_polymorphic_downcast_fail();
+    test_polymorphic_pointer_downcast_fail();
 
     return boost::report_errors();
 }
