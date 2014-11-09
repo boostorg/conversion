@@ -134,6 +134,30 @@ void f( Fruit * fruit ) {
 </pre>
     </blockquote>
 
+    <h3>polymorphic_pointer_downcast example</h3>
+
+    <blockquote>
+<pre>#include &lt;boost/polymorphic_cast.hpp&gt;
+
+class Fruit { public: virtual ~Fruit(){} };
+class Banana : public Fruit {};
+
+// use one of these:
+
+typedef Fruit* FruitPtr;
+typedef std::shared_ptr&lt;Fruit&gt; FruitPtr;
+typedef boost::shared_ptr&lt;Fruit&gt; FruitPtr;
+typedef boost::intrusive_ptr&lt;Fruit&gt; FruitPtr;
+
+void f(FruitPtr fruit)
+{
+  // ... logic which leads us to believe it is a banana
+  auto banana = boost::polymorphic_pointer_downcast&lt;Banana&gt;(fruit);
+  ...
+}
+</pre>
+    </blockquote>
+
     <h3>History</h3>
 
     <p><code>polymorphic_cast</code> was suggested by Bjarne Stroustrup in "The C++

@@ -13,8 +13,12 @@
 
 #define BOOST_ENABLE_ASSERT_HANDLER
 #include <boost/polymorphic_cast.hpp>
+#include <boost/smart_ptr/shared_ptr.hpp>
+#include <boost/smart_ptr/intrusive_ptr.hpp>
+#include <boost/smart_ptr/intrusive_ref_counter.hpp>
 #include <boost/core/lightweight_test.hpp>
 #include <string>
+#include <memory>
 
 static bool expect_assertion = false;
 static int assertion_failed_count = 0;
@@ -38,7 +42,7 @@ void boost::assertion_failed( char const * expr, char const * function, char con
 
 //
 
-struct Base
+struct Base : boost::intrusive_ref_counter<Base>
 {
     virtual ~Base() {}
     virtual std::string kind() { return "Base"; }
@@ -116,7 +120,7 @@ static void test_polymorphic_downcast()
     delete base;
 }
 
-static void test_polymorphic_pointer_downcast()
+static void test_polymorphic_pointer_downcast_builtin()
 {
     Base * base = new Derived;
 
@@ -133,6 +137,52 @@ static void test_polymorphic_pointer_downcast()
 
     delete base;
 }
+
+static void test_polymorphic_pointer_downcast_boost_shared()
+{
+    boost::shared_ptr<Base> base (new Derived);
+
+    boost::shared_ptr<Derived> derived = boost::polymorphic_pointer_downcast<Derived>( base );
+
+    BOOST_TEST( derived != 0 );
+
+    if( derived != 0 )
+    {
+        BOOST_TEST_EQ( derived->kind(), "Derived" );
+    }
+}
+
+static void test_polymorphic_pointer_downcast_intrusive()
+{
+    boost::intrusive_ptr<Base> base (new Derived);
+
+    boost::intrusive_ptr<Derived> derived = boost::polymorphic_pointer_downcast<Derived>( base );
+
+    BOOST_TEST( derived != 0 );
+
+    if( derived != 0 )
+    {
+        BOOST_TEST_EQ( derived->kind(), "Derived" );
+    }
+}
+
+#ifndef BOOST_NO_CXX11_SMART_PTR
+
+static void test_polymorphic_pointer_downcast_std_shared()
+{
+    std::shared_ptr<Base> base (new Derived);
+
+    std::shared_ptr<Derived> derived = boost::polymorphic_pointer_downcast<Derived>( base );
+
+    BOOST_TEST( derived != 0 );
+
+    if( derived != 0 )
+    {
+        BOOST_TEST_EQ( derived->kind(), "Derived" );
+    }
+}
+
+#endif
 
 static void test_polymorphic_cast_fail()
 {
@@ -158,7 +208,7 @@ static void test_polymorphic_downcast_fail()
     delete base;
 }
 
-static void test_polymorphic_pointer_downcast_fail()
+static void test_polymorphic_pointer_downcast_builtin_fail()
 {
     Base * base = new Base;
 
@@ -173,14 +223,66 @@ static void test_polymorphic_pointer_downcast_fail()
     delete base;
 }
 
+static void test_polymorphic_pointer_downcast_boost_shared_fail()
+{
+    boost::shared_ptr<Base> base (new Base);
+
+    int old_count = assertion_failed_count;
+    expect_assertion = true;
+
+    boost::polymorphic_pointer_downcast<Derived>( base ); // should assert
+
+    BOOST_TEST_EQ( assertion_failed_count, old_count + 1 );
+    expect_assertion = false;
+}
+
+#ifndef BOOST_NO_CXX11_SMART_PTR
+
+static void test_polymorphic_pointer_downcast_std_shared_fail()
+{
+    std::shared_ptr<Base> base (new Base);
+
+    int old_count = assertion_failed_count;
+    expect_assertion = true;
+
+    boost::polymorphic_pointer_downcast<Derived>( base ); // should assert
+
+    BOOST_TEST_EQ( assertion_failed_count, old_count + 1 );
+    expect_assertion = false;
+}
+
+#endif
+
+static void test_polymorphic_pointer_downcast_intrusive_fail()
+{
+    boost::intrusive_ptr<Base> base (new Base);
+
+    int old_count = assertion_failed_count;
+    expect_assertion = true;
+
+    boost::polymorphic_pointer_downcast<Derived>( base ); // should assert
+
+    BOOST_TEST_EQ( assertion_failed_count, old_count + 1 );
+    expect_assertion = false;
+}
+
 int main()
 {
     test_polymorphic_cast();
     test_polymorphic_downcast();
-    test_polymorphic_pointer_downcast();
+    test_polymorphic_pointer_downcast_builtin();
+    test_polymorphic_pointer_downcast_boost_shared();
+    test_polymorphic_pointer_downcast_intrusive();
     test_polymorphic_cast_fail();
     test_polymorphic_downcast_fail();
-    test_polymorphic_pointer_downcast_fail();
+    test_polymorphic_pointer_downcast_builtin_fail();
+    test_polymorphic_pointer_downcast_boost_shared_fail();
+    test_polymorphic_pointer_downcast_intrusive_fail();
+
+#ifndef BOOST_NO_CXX11_SMART_PTR
+    test_polymorphic_pointer_downcast_std_shared();
+    test_polymorphic_pointer_downcast_std_shared_fail();
+#endif
 
     return boost::report_errors();
 }
