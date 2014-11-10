@@ -1,5 +1,5 @@
 //  boost polymorphic_pointer_cast.hpp header file  ----------------------------------------------//
-//  (C) Copyright Boris Rasin 2014.
+//  (C) Copyright Boris Rasin and Antony Polukhin 2014.
 //  Distributed under the Boost
 //  Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -59,6 +59,17 @@ namespace boost
     {
         BOOST_ASSERT(dynamic_pointer_cast<Target> (x) == x);
         return static_pointer_cast<Target> (x);
+    }
+
+    template <typename Target, typename Source>
+    inline typename detail::static_pointer_cast_result<Target, Source>::type
+    polymorphic_pointer_cast (const Source& x)
+    {
+        typename detail::static_pointer_cast_result<Target, Source>::type tmp
+            = dynamic_pointer_cast<Target> (x);
+        if ( !tmp ) boost::throw_exception( std::bad_cast() );
+
+        return tmp;
     }
 
 } // namespace boost

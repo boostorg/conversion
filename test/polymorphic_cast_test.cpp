@@ -1,10 +1,11 @@
 //
-// Test boost::polymorphic_cast, boost::polymorphic_downcast
+// Test boost::polymorphic_cast, boost::polymorphic_downcast and 
+// boost::polymorphic_pointer_cast, boost::polymorphic_pointer_downcast
 //
 // Copyright 1999 Beman Dawes
 // Copyright 1999 Dave Abrahams
 // Copyright 2014 Peter Dimov
-// Copyright 2014 Boris Rasin
+// Copyright 2014 Boris Rasin, Antony Polukhin
 //
 // Distributed under the Boost Software License, Version 1.0.
 //
@@ -103,6 +104,67 @@ static void test_polymorphic_cast()
     delete base;
 }
 
+static void test_polymorphic_pointer_cast()
+{
+    Base * base = new Derived;
+
+    Derived * derived;
+
+    try
+    {
+        derived = boost::polymorphic_pointer_cast<Derived>( base );
+
+        BOOST_TEST( derived != 0 );
+
+        if( derived != 0 )
+        {
+            BOOST_TEST_EQ( derived->kind(), "Derived" );
+        }
+    }
+    catch( std::bad_cast const& )
+    {
+        BOOST_ERROR( "boost::polymorphic_pointer_cast<Derived>( base ) threw std::bad_cast" );
+    }
+
+    Base2 * base2;
+
+    try
+    {
+        base2 = boost::polymorphic_pointer_cast<Base2>( base ); // crosscast
+
+        BOOST_TEST( base2 != 0 );
+
+        if( base2 != 0 )
+        {
+            BOOST_TEST_EQ( base2->kind2(), "Base2" );
+        }
+    }
+    catch( std::bad_cast const& )
+    {
+        BOOST_ERROR( "boost::polymorphic_pointer_cast<Base2>( base ) threw std::bad_cast" );
+    }
+
+    boost::shared_ptr<Base> sp_base( base );
+    boost::shared_ptr<Base2> sp_base2;
+    try
+    {
+        sp_base2 = boost::polymorphic_pointer_cast<Base2>( sp_base ); // crosscast
+
+        BOOST_TEST( sp_base2 != 0 );
+
+        if( sp_base2 != 0 )
+        {
+            BOOST_TEST_EQ( base2->kind2(), "Base2" );
+        }
+    }
+    catch( std::bad_cast const& )
+    {
+        BOOST_ERROR( "boost::polymorphic_pointer_cast<Base2>( sp_base ) threw std::bad_cast" );
+    }
+
+    // we do not `delete base;` because sahred_ptr is holding base
+}
+
 static void test_polymorphic_downcast()
 {
     Base * base = new Derived;
@@ -194,6 +256,21 @@ static void test_polymorphic_cast_fail()
     delete base;
 }
 
+static void test_polymorphic_pointer_cast_fail()
+{
+    Base * base = new Base;
+    BOOST_TEST_THROWS( boost::polymorphic_pointer_cast<Derived>( base ), std::bad_cast );
+    delete base;
+
+    BOOST_TEST_THROWS( boost::polymorphic_pointer_cast<Derived>( boost::shared_ptr<Base>(new Base) ), std::bad_cast );
+
+#ifndef BOOST_NO_CXX11_SMART_PTR
+    BOOST_TEST_THROWS( boost::polymorphic_pointer_cast<Derived>( std::shared_ptr<Base>(new Base) ), std::bad_cast );
+#endif
+
+    BOOST_TEST_THROWS( boost::polymorphic_pointer_cast<Derived>( boost::intrusive_ptr<Base>(new Base) ), std::bad_cast );
+}
+
 static void test_polymorphic_downcast_fail()
 {
     Base * base = new Base;
@@ -270,11 +347,13 @@ static void test_polymorphic_pointer_downcast_intrusive_fail()
 int main()
 {
     test_polymorphic_cast();
+    test_polymorphic_pointer_cast();
     test_polymorphic_downcast();
     test_polymorphic_pointer_downcast_builtin();
     test_polymorphic_pointer_downcast_boost_shared();
     test_polymorphic_pointer_downcast_intrusive();
     test_polymorphic_cast_fail();
+    test_polymorphic_pointer_cast_fail();
     test_polymorphic_downcast_fail();
     test_polymorphic_pointer_downcast_builtin_fail();
     test_polymorphic_pointer_downcast_boost_shared_fail();
