@@ -9,6 +9,8 @@
 //  See http://www.boost.org/libs/conversion for Documentation.
 
 //  Revision History
+//  10 Nov 14  polymorphic_pointer_downcast moved to a separate header,
+//             minor improvements to stisfy latest Boost coding style
 //  08 Nov 14  Add polymorphic_pointer_downcast (Boris Rasin)
 //  09 Jun 14  "cast.hpp" was renamed to "polymorphic_cast.hpp" and
 //             inclusion of numeric_cast was removed (Antony Polukhin)
@@ -49,10 +51,12 @@
 
 # include <boost/config.hpp>
 # include <boost/assert.hpp>
-# include <boost/pointer_cast.hpp>
-# include <boost/utility/declval.hpp>
-# include <boost/typeof/typeof.hpp>
+# include <boost/throw_exception.hpp>
 # include <typeinfo>
+
+#ifdef BOOST_HAS_PRAGMA_ONCE
+#   pragma once
+#endif
 
 namespace boost
 {
@@ -69,7 +73,7 @@ namespace boost
     inline Target polymorphic_cast(Source* x)
     {
         Target tmp = dynamic_cast<Target>(x);
-        if ( tmp == 0 ) throw std::bad_cast();
+        if ( tmp == 0 ) boost::throw_exception( std::bad_cast() );
         return tmp;
     }
 
@@ -89,41 +93,6 @@ namespace boost
     {
         BOOST_ASSERT( dynamic_cast<Target>(x) == x );  // detect logic error
         return static_cast<Target>(x);
-    }
-
-//  polymorphic_pointer_downcast  --------------------------------------------//
-
-    //  BOOST_ASSERT() checked polymorphic downcast.  Crosscasts prohibited.
-    //  Supports any type with static_pointer_cast/dynamic_pointer_cast functions:
-    //  built-in pointers, std::shared_ptr, boost::shared_ptr, boost::intrusive_ptr, etc.
-
-    //  WARNING: Because this cast uses BOOST_ASSERT(), it violates
-    //  the One Definition Rule if used in multiple translation units
-    //  where BOOST_DISABLE_ASSERTS, BOOST_ENABLE_ASSERT_HANDLER
-    //  NDEBUG are defined inconsistently.
-
-    //  Contributed by Boris Rasin
-
-    namespace detail
-    {
-        template <typename Target, typename Source>
-        struct static_pointer_cast_result
-        {
-#ifdef BOOST_NO_CXX11_DECLTYPE
-            BOOST_TYPEOF_NESTED_TYPEDEF_TPL(nested, static_pointer_cast<Target>(boost::declval<Source>()))
-            typedef typename nested::type type;
-#else
-            typedef decltype(static_pointer_cast<Target>(boost::declval<Source>())) type;
-#endif
-        };
-    }
-
-    template <typename Target, typename Source>
-    inline typename detail::static_pointer_cast_result<Target, Source>::type
-    polymorphic_pointer_downcast (const Source& x)
-    {
-        BOOST_ASSERT(dynamic_pointer_cast<Target> (x) == x);
-        return static_pointer_cast<Target> (x);
     }
 
 } // namespace boost
