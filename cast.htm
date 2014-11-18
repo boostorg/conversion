@@ -117,7 +117,7 @@ inline Derived polymorphic_downcast(Base* x);
 // Returns: static_cast&lt;Derived&gt;(x)
 
 template &lt;class Derived, class Base&gt;
-inline Derived polymorphic_pointer_cast(Base* x);
+inline auto polymorphic_pointer_cast(Base x);
 // Throws: std::bad_cast if ( dynamic_pointer_cast&lt;Derived&gt;(x) == 0 )
 // Returns: dynamic_pointer_cast&lt;Derived&gt;(x)
 
