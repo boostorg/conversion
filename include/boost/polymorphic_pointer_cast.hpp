@@ -42,19 +42,19 @@ namespace boost
     namespace detail
     {
         template <typename Target, typename Source>
-        struct static_pointer_cast_result
+        struct dynamic_pointer_cast_result
         {
 #ifdef BOOST_NO_CXX11_DECLTYPE
-            BOOST_TYPEOF_NESTED_TYPEDEF_TPL(nested, static_pointer_cast<Target>(boost::declval<Source>()))
+            BOOST_TYPEOF_NESTED_TYPEDEF_TPL(nested, dynamic_pointer_cast<Target>(boost::declval<Source>()))
             typedef typename nested::type type;
 #else
-            typedef decltype(static_pointer_cast<Target>(boost::declval<Source>())) type;
+            typedef decltype(dynamic_pointer_cast<Target>(boost::declval<Source>())) type;
 #endif
         };
     }
 
     template <typename Target, typename Source>
-    inline typename detail::static_pointer_cast_result<Target, Source>::type
+    inline typename detail::dynamic_pointer_cast_result<Target, Source>::type
     polymorphic_pointer_downcast (const Source& x)
     {
         BOOST_ASSERT(dynamic_pointer_cast<Target> (x) == x);
@@ -62,10 +62,10 @@ namespace boost
     }
 
     template <typename Target, typename Source>
-    inline typename detail::static_pointer_cast_result<Target, Source>::type
+    inline typename detail::dynamic_pointer_cast_result<Target, Source>::type
     polymorphic_pointer_cast (const Source& x)
     {
-        typename detail::static_pointer_cast_result<Target, Source>::type tmp
+        typename detail::dynamic_pointer_cast_result<Target, Source>::type tmp
             = dynamic_pointer_cast<Target> (x);
         if ( !tmp ) boost::throw_exception( std::bad_cast() );
 
