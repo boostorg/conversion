@@ -1,5 +1,5 @@
 //  boost polymorphic_pointer_cast.hpp header file  ----------------------------------------------//
-//  (C) Copyright Boris Rasin and Antony Polukhin 2014.
+//  (C) Copyright Boris Rasin and Antony Polukhin 2014-2015.
 //  Distributed under the Boost
 //  Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -12,6 +12,7 @@
 # include <boost/config.hpp>
 # include <boost/assert.hpp>
 # include <boost/pointer_cast.hpp>
+# include <boost/throw_exception.hpp>
 # include <boost/utility/declval.hpp>
 # ifdef BOOST_NO_CXX11_DECLTYPE
 #   include <boost/typeof/typeof.hpp>
