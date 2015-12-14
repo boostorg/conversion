@@ -53,16 +53,13 @@ int main( int argc, char * argv[] )
     //  tests which should succeed
     Derived derived_instance;
     Base * base = &derived_instance;
-    Base2 *   base2 = 0;
-    Derived * derived = 0;
-    derived = polymorphic_downcast<Derived*>( base );  // downcast
+    Derived * derived = polymorphic_downcast<Derived*>( base );  // downcast
     assert( derived->kind() == 'D' );
 
-    derived = 0;
     derived = polymorphic_cast<Derived*>( base ); // downcast, throw on error
     assert( derived->kind() == 'D' );
 
-    base2 = polymorphic_cast<Base2*>( base ); // crosscast
+    Base2 *   base2 =  polymorphic_cast<Base2*>( base ); // crosscast
     assert( base2->kind2() == '2' );
 
      //  tests which should result in errors being detected
