@@ -1,4 +1,4 @@
-#   Copyright (c) 2002 Douglas Gregor <doug.gregor -at- gmail.com>
+#   Copyright (c) 2016 Mikhail Maximov <vigorous.activity -at- gmail.com>
 
 #   Distributed under the Boost Software License, Version 1.0.
 #   (See accompanying file LICENSE_1_0.txt or copy at
@@ -6,11 +6,11 @@
 
 project doc/conversion ;
 
+using quickbook ;
 import boostbook ;
-import quickbook ;
 
 xml conversion_lib : conversion.qbk ;
-boostbook conversion
+boostbook standalone
     :
         conversion_lib
     :
@@ -32,7 +32,11 @@ boostbook conversion
      ;
 
 ###############################################################################
-alias boostdoc ;
+alias boostdoc 
+    : conversion
+    :
+    :
+    : ;
 explicit boostdoc ;
-alias boostrelease : conversion ;
+alias boostrelease ;
 explicit boostrelease ;
