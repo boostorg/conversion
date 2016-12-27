@@ -32,11 +32,7 @@ boostbook standalone
      ;
 
 ###############################################################################
-alias boostdoc 
-    : conversion
-    :
-    :
-    : ;
+alias boostdoc : standalone ;
 explicit boostdoc ;
 alias boostrelease ;
 explicit boostrelease ;
