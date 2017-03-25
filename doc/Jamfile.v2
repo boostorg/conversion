@@ -9,10 +9,10 @@ project doc/conversion ;
 using quickbook ;
 import boostbook ;
 
-xml conversion_lib : conversion.qbk ;
+xml conversion : conversion.qbk ;
 boostbook standalone
     :
-        conversion_lib
+        conversion
     :
         <xsl:param>boost.root=../../../..
         # File name of HTML output:
@@ -32,7 +32,7 @@ boostbook standalone
      ;
 
 ###############################################################################
-alias boostdoc : conversion_lib ;
+alias boostdoc : conversion ;
 explicit boostdoc ;
 alias boostrelease ;
 explicit boostrelease ;
