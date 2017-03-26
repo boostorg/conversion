@@ -7,7 +7,7 @@
 [article The Conversion Library
     [quickbook 1.6]
     [compatibility-mode 1.5]
-    [id conversion_lib]
+    [id conversion]
     [version 1.6]
     [authors [Stroustrup, Bjarne], [Abrahams, Dave], [Rasin, Boris], [Polukhin, Antony]]
     [copyright 2001 Beman Dawes]
