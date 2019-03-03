@@ -6,7 +6,7 @@
 #       and the interface is likely to change in the future
 
 cmake_minimum_required( VERSION 3.5 )
-project( boost-conversion LANGUAGES CXX )
+project( BoostConversion LANGUAGES CXX )
 
 add_library( boost_conversion INTERFACE )
 add_library( Boost::conversion ALIAS boost_conversion )
