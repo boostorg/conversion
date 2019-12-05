@@ -52,6 +52,9 @@
 # include <boost/config.hpp>
 # include <boost/assert.hpp>
 # include <boost/throw_exception.hpp>
+# include <boost/type_traits/is_reference.hpp> 
+# include <boost/type_traits/remove_reference.hpp>
+# include <boost/utility/enable_if.hpp>
 # include <typeinfo>
 
 #ifdef BOOST_HAS_PRAGMA_ONCE
@@ -79,7 +82,7 @@ namespace boost
 
 //  polymorphic_downcast  ----------------------------------------------------//
 
-    //  BOOST_ASSERT() checked polymorphic downcast.  Crosscasts prohibited.
+    //  BOOST_ASSERT() checked raw pointer polymorphic downcast.  Crosscasts prohibited.
 
     //  WARNING: Because this cast uses BOOST_ASSERT(), it violates
     //  the One Definition Rule if used in multiple translation units
@@ -92,6 +95,22 @@ namespace boost
     inline Target polymorphic_downcast(Source* x)
     {
         BOOST_ASSERT( dynamic_cast<Target>(x) == x );  // detect logic error
+        return static_cast<Target>(x);
+    }
+
+    //  BOOST_ASSERT() checked reference polymorphic downcast.  Crosscasts prohibited.
+
+    //  WARNING: Because this cast uses BOOST_ASSERT(), it violates
+    //  the One Definition Rule if used in multiple translation units
+    //  where BOOST_DISABLE_ASSERTS, BOOST_ENABLE_ASSERT_HANDLER
+    //  NDEBUG are defined inconsistently.
+
+    //  Contributed by Julien Delacroix
+
+    template <class Target, class Source>
+    inline typename boost::enable_if_c<boost::is_reference<Target>::value, Target>::type polymorphic_downcast(Source &x)
+    {
+        BOOST_ASSERT(dynamic_cast<typename boost::remove_reference<Target>::type *>(&x) == &x);
         return static_cast<Target>(x);
     }
 
