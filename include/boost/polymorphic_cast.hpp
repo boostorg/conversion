@@ -50,16 +50,19 @@
 #define BOOST_POLYMORPHIC_CAST_HPP
 
 # include <boost/config.hpp>
-# include <boost/assert.hpp>
-# include <boost/throw_exception.hpp>
-# include <boost/type_traits/is_reference.hpp> 
-# include <boost/type_traits/remove_reference.hpp>
-# include <boost/utility/enable_if.hpp>
-# include <typeinfo>
 
 #ifdef BOOST_HAS_PRAGMA_ONCE
 #   pragma once
 #endif
+
+# include <boost/assert.hpp>
+# include <boost/core/addressof.hpp>
+# include <boost/core/enable_if.hpp>
+# include <boost/throw_exception.hpp>
+# include <boost/type_traits/is_reference.hpp> 
+# include <boost/type_traits/remove_reference.hpp>
+
+# include <typeinfo>
 
 namespace boost
 {
@@ -108,10 +111,14 @@ namespace boost
     //  Contributed by Julien Delacroix
 
     template <class Target, class Source>
-    inline typename boost::enable_if_c<boost::is_reference<Target>::value, Target>::type polymorphic_downcast(Source &x)
+    inline typename boost::enable_if_c<
+        boost::is_reference<Target>::value, Target
+    >::type polymorphic_downcast(Source& x)
     {
-        BOOST_ASSERT(dynamic_cast<typename boost::remove_reference<Target>::type *>(&x) == &x);
-        return static_cast<Target>(x);
+        typedef typename boost::remove_reference<Target>::type* target_pointer_type;
+        return *boost::polymorphic_downcast<target_pointer_type>(
+            boost::addressof(x)
+        );
     }
 
 } // namespace boost
