@@ -2,20 +2,16 @@
 # subject to the Boost Software License, Version 1.0. (See accompanying
 # file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 #
-# Copyright Antony Polukhin 2014-2018.
+# Copyright Antony Polukhin 2014-2020.
 
 #
 # See https://svn.boost.org/trac/boost/wiki/TravisCoverals for description of this file
 # and how it can be used with Boost libraries.
 #
-# File revision #9
+# File revision #10
 
-sudo: false
 language: cpp
 os: linux
-
-env:
-  global:
 
 # `--coverage` flags required to generate coverage info for Coveralls
 matrix:
@@ -88,7 +84,6 @@ before_install:
   # Global options for sanitizers
   - UBSAN_OPTIONS=print_stacktrace=1
   - LSAN_OPTIONS=verbosity=1:log_threads=1
-
   # Cloning minimal set of Boost libraries
   - BOOST=$HOME/boost-local
   - git clone -b $BOOST_BRANCH --depth 10 https://github.com/boostorg/boost.git $BOOST
@@ -114,14 +109,14 @@ before_install:
     echo "using clang : 4 : clang++-4.0 ;" >> ~/user-config.jam
     echo "using clang : 5 : clang++-5.0 ;" >> ~/user-config.jam
     echo "using clang : 6 : clang++-6.0 ;" >> ~/user-config.jam
-    echo "using clang : 7 : clang++-7 ;" >> ~/user-config.jam
+    echo "using clang : 7 : clang++-7.0 ;" >> ~/user-config.jam
     echo "using clang : 8 : clang++-8 ;" >> ~/user-config.jam
     echo "using clang : libc++ : clang++-libc++ ;" >> ~/user-config.jam
   - cd $BOOST/libs/$BOOST_LIBS_FOLDER/test/
 
 script:
   - sh -c "../../../b2 -j2 $B2_ARGS"
-  - ../../../dist/bin/inspect .. # inspect tool run
+  - ../../../dist/bin/inspect .. -license -copyright -crlf -end -path_name -tab -ascii -apple_macro -assert_macro -deprecated_macro -minmax -unnamed
 
 after_success:
   # Copying Coveralls data to a separate folder
