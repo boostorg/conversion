@@ -150,7 +150,7 @@ jobs:
           echo '==================================> TEST'
 
           sh -c "../../../b2 -j2 $CI_B2_ARGS"
-          ../../../dist/bin/inspect ..
+          ../../../dist/bin/inspect .. -license -copyright -crlf -end -path_name -tab -ascii -apple_macro -assert_macro -deprecated_macro -minmax -unnamed
 
           echo '==================================> AFTER_SUCCESS'
 
