@@ -37,7 +37,7 @@ jobs:
             gcovtool: "gcov-4.6"
           - name: "Clang-7"
             buildtype: "boost"
-            packages: "clang++-7"
+            packages: "clang++-7 llvm-7"
             packages_to_remove: ""
             os: "ubuntu-16.04"
             llvm_os: "xenial"
@@ -50,7 +50,7 @@ jobs:
             packages_to_remove: ""
             os: "ubuntu-16.04"
             llvm_os: ""
-            llvm_ver: ""
+            llvm_ver: "3.8"
             b2_args: "cxxstd=03,11,14 toolset=clang-libc++ cxxflags=\"--coverage -fsanitize=address,leak,undefined -fno-sanitize-recover=undefined -DBOOST_TRAVISCI_BUILD\" linkflags=\"--coverage -fsanitize=address,leak,undefined\""
             gcovtool: "gcov_for_clang.sh"
 
