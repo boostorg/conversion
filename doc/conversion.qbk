@@ -43,7 +43,7 @@ the Boost Conversion Library is supplied by several headers:
 # The [@boost:boost/implicit_cast.hpp boost/implicit_cast.hpp] header provides `implicit_cast<>` 
   to perform implicit casts only (no down-cast, no void*->T*, no U->T if T has only explicit constructors for U).
 # The [@boost:boost/lexical_cast.hpp boost/lexical_cast.hpp] header 
-  provides [@boost:libs/lexical_cast/doc/html/index.html `lexical_cast<>`] general literal text conversions, such as an `int` represented as a `string`, or vice-versa. 
+  provides [@boost:doc/libs/release/libs/lexical_cast/ `lexical_cast<>`] general literal text conversions, such as an `int` represented as a `string`, or vice-versa. 
 
 [endsect]
 
