@@ -49,6 +49,8 @@ jobs:
             compiler: clang++-10
             cxxstd: "03,11,14,17,2a"
             os: ubuntu-20.04
+            cxxflags: "cxxflags=-fsanitize=undefined,integer,memory -fno-sanitize-recover=undefined"
+            linkflags: "linkflags=-fsanitize=undefined,integer,memory"
           - toolset: clang
             cxxstd: "03,11,14,17,2a"
             os: macos-10.15
