@@ -11,11 +11,6 @@
 # pragma once
 #endif
 
-
-#if defined(BOOST_NO_CXX11_CONSTEXPR)
-#error C++03 support is removed in Boost.Conversion 1.84
-#endif
-
 namespace boost {
 
 namespace detail {
