@@ -12,7 +12,7 @@ import ../../config/checks/config : requires ;
 
 project
     : requirements
-        [ requires cxx11 ]
+        [ requires cxx11_rvalue_references ]
         # default to all warnings on:
         <warnings>all
         # set warnings as errors for those compilers we know we get warning free:

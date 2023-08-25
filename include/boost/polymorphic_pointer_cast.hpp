@@ -15,10 +15,6 @@
 #   pragma once
 #endif
 
-#if defined(BOOST_NO_CXX11_TEMPLATE_ALIASES) || defined(BOOST_NO_CXX11_AUTO_DECLARATIONS) || defined(BOOST_NO_CXX11_DECLTYPE)
-#error C++03 support is removed in Boost.Conversion 1.84
-#endif
-
 # include <boost/assert.hpp>
 # include <boost/pointer_cast.hpp>
 # include <boost/throw_exception.hpp>
