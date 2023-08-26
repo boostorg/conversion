@@ -19,8 +19,6 @@
 # include <boost/pointer_cast.hpp>
 # include <boost/throw_exception.hpp>
 
-# include <utility>  // std::declval
-
 
 namespace boost
 {
@@ -40,23 +38,17 @@ namespace boost
 
     //  Contributed by Boris Rasin
 
-    namespace detail
-    {
-        template <typename Target, typename Source>
-        using dynamic_pointer_cast_result = decltype(dynamic_pointer_cast<Target>(std::declval<Source>()));
-    }
-
     template <typename Target, typename Source>
-    inline detail::dynamic_pointer_cast_result<Target, Source>
-    polymorphic_pointer_downcast (const Source& x)
+    inline auto polymorphic_pointer_downcast (const Source& x)
+        -> decltype(static_pointer_cast<Target>(x))
     {
         BOOST_ASSERT(dynamic_pointer_cast<Target> (x) == x);
         return static_pointer_cast<Target> (x);
     }
 
     template <typename Target, typename Source>
-    inline detail::dynamic_pointer_cast_result<Target, Source>
-    polymorphic_pointer_cast (const Source& x)
+    inline auto polymorphic_pointer_cast (const Source& x)
+        -> decltype(dynamic_pointer_cast<Target>(x))
     {
         auto tmp = dynamic_pointer_cast<Target> (x);
         if ( !tmp ) boost::throw_exception( std::bad_cast() );
