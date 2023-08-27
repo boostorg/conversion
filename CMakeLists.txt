@@ -14,5 +14,6 @@ target_link_libraries( boost_conversion
     INTERFACE
         Boost::assert
         Boost::config
+        Boost::smart_ptr
         Boost::throw_exception
 )
