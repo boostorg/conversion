@@ -150,10 +150,10 @@ This includes C++ built-in pointers, `std::shared_ptr`,
     class Banana : public Fruit {};
 
     // Use one of these:
-    typedef Fruit* FruitPtr;
-    typedef std::shared_ptr<Fruit> FruitPtr;
-    typedef boost::shared_ptr<Fruit> FruitPtr;
-    typedef boost::intrusive_ptr<Fruit> FruitPtr;
+    using FruitPtr = Fruit*;
+    using FruitPtr = std::shared_ptr<Fruit>;
+    using FruitPtr = boost::shared_ptr<Fruit>;
+    using FruitPtr = boost::intrusive_ptr<Fruit>;
 
     void f(FruitPtr fruit) {
       // ... logic which leads us to believe it is a banana
