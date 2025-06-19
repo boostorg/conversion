@@ -14,7 +14,7 @@
 //  08 Nov 14  Add polymorphic_pointer_downcast (Boris Rasin)
 //  09 Jun 14  "cast.hpp" was renamed to "polymorphic_cast.hpp" and
 //             inclusion of numeric_cast was removed (Antony Polukhin)
-//  23 Jun 05  numeric_cast removed and redirected to the new verion (Fernando Cacciola)
+//  23 Jun 05  numeric_cast removed and redirected to the new version (Fernando Cacciola)
 //  02 Apr 01  Removed BOOST_NO_LIMITS workarounds and included
 //             <boost/limits.hpp> instead (the workaround did not
 //             actually compile when BOOST_NO_LIMITS was defined in
@@ -31,7 +31,7 @@
 //  19 Oct 00  Fix numeric_cast for floating-point types (Dave Abrahams)
 //  15 Jul 00  Suppress numeric_cast warnings for GCC, Borland and MSVC
 //             (Dave Abrahams)
-//  30 Jun 00  More MSVC6 wordarounds.  See comments below.  (Dave Abrahams)
+//  30 Jun 00  More MSVC6 workarounds.  See comments below.  (Dave Abrahams)
 //  28 Jun 00  Removed implicit_cast<>.  See comment below. (Beman Dawes)
 //  27 Jun 00  More MSVC6 workarounds
 //  15 Jun 00  Add workarounds for MSVC6
