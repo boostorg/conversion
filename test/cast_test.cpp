@@ -38,6 +38,33 @@ namespace
     };
 }
 
+constexpr bool compile_time_polymorphic_cast_check() {
+#if defined(__cpp_constexpr) && __cpp_constexpr >= 201907L
+    Derived derived;
+    Base* base = &derived;
+    return polymorphic_cast<Derived*>(base) != nullptr;
+#endif
+    return true;
+}
+
+static_assert(
+    compile_time_polymorphic_cast_check(),
+    "polymorphic_cast does not work at compile time"
+);
+
+constexpr bool compile_time_polymorphic_downcast_check() {
+#if defined(__cpp_constexpr) && __cpp_constexpr >= 201907L
+    Derived derived;
+    Base* base = &derived;
+    return polymorphic_downcast<Derived*>(base) != nullptr;
+#endif
+    return true;
+}
+
+static_assert(
+    compile_time_polymorphic_downcast_check(),
+    "polymorphic_downcast does not work at compile time"
+);
 
 int main( int argc, char * argv[] )
 {

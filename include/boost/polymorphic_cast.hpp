@@ -62,6 +62,12 @@
 # include <typeinfo>
 # include <type_traits>
 
+#if defined(__cpp_constexpr) && __cpp_constexpr >= 201907L
+#define BOOST_CONVERSION_IMPL_CONSTEXPR_DYN_CAST constexpr
+#else
+#define BOOST_CONVERSION_IMPL_CONSTEXPR_DYN_CAST inline
+#endif
+
 namespace boost
 {
 //  See the documentation for descriptions of how to choose between
@@ -74,7 +80,7 @@ namespace boost
     //  section 15.8 exercise 1, page 425.
 
     template <class Target, class Source>
-    inline Target polymorphic_cast(Source* x)
+    BOOST_CONVERSION_IMPL_CONSTEXPR_DYN_CAST Target polymorphic_cast(Source* x)
     {
         Target tmp = dynamic_cast<Target>(x);
         if ( tmp == 0 ) boost::throw_exception( std::bad_cast() );
@@ -93,7 +99,7 @@ namespace boost
     //  Contributed by Dave Abrahams
 
     template <class Target, class Source>
-    inline Target polymorphic_downcast(Source* x)
+    BOOST_CONVERSION_IMPL_CONSTEXPR_DYN_CAST Target polymorphic_downcast(Source* x)
     {
         BOOST_ASSERT( dynamic_cast<Target>(x) == x );  // detect logic error
         return static_cast<Target>(x);
@@ -109,7 +115,7 @@ namespace boost
     //  Contributed by Julien Delacroix
 
     template <class Target, class Source>
-    inline typename std::enable_if<
+    BOOST_CONVERSION_IMPL_CONSTEXPR_DYN_CAST typename std::enable_if<
         std::is_reference<Target>::value, Target
     >::type polymorphic_downcast(Source& x)
     {
@@ -120,5 +126,7 @@ namespace boost
     }
 
 } // namespace boost
+
+#undef BOOST_CONVERSION_IMPL_CONSTEXPR_DYN_CAST
 
 #endif  // BOOST_POLYMORPHIC_CAST_HPP
