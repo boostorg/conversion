@@ -10,8 +10,8 @@ endif()
 
 set(BOOST_TEST_LINK_LIBRARIES Boost::conversion)
 
-boost_test(TYPE run SOURCES cast_test.cpp)
+boost_test(TYPE run SOURCES cast_test.cpp LINK_LIBRARIES Boost::core)
 boost_test(TYPE run SOURCES implicit_cast.cpp)
 boost_test(TYPE compile-fail SOURCES implicit_cast_fail.cpp)
 boost_test(TYPE compile-fail SOURCES implicit_cast_fail2.cpp)
-boost_test(TYPE run SOURCES polymorphic_cast_test.cpp LINK_LIBRARIES Boost::smart_ptr)
+boost_test(TYPE run SOURCES polymorphic_cast_test.cpp LINK_LIBRARIES Boost::core Boost::smart_ptr)
