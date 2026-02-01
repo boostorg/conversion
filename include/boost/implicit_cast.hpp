@@ -6,7 +6,10 @@
 #ifndef BOOST_IMPLICIT_CAST_DWA200356_HPP
 #define BOOST_IMPLICIT_CAST_DWA200356_HPP
 
-#include <boost/config.hpp>
+#include <boost/conversion/detail/config.hpp>
+
+#if !defined(BOOST_USE_MODULES) || defined(BOOST_CONVERSION_INTERFACE_UNIT)
+
 #ifdef BOOST_HAS_PRAGMA_ONCE
 # pragma once
 #endif
@@ -22,6 +25,8 @@ template<class T> struct icast_identity
 
 } // namespace detail
 
+BOOST_CONVERSION_BEGIN_MODULE_EXPORT
+
 // implementation originally suggested by C. Green in
 // http://lists.boost.org/MailArchives/boost/msg00886.php
 
@@ -32,7 +37,10 @@ constexpr T implicit_cast (typename boost::detail::icast_identity<T>::type x) {
     return x;
 }
 
+BOOST_CONVERSION_END_MODULE_EXPORT
+
 } // namespace boost
 
+#endif // !defined(BOOST_USE_MODULES) || defined(BOOST_CONVERSION_INTERFACE_UNIT)
 
 #endif // BOOST_IMPLICIT_CAST_DWA200356_HPP

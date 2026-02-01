@@ -1,0 +1,23 @@
+# Copyright  (c) 2016-2026 Antony Polukhin
+# Distributed under the Boost Software License, Version 1.0.
+# See accompanying file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt
+
+cmake_minimum_required(VERSION 3.5...4.2)
+
+project(conversion_subdir_test LANGUAGES CXX)
+
+add_subdirectory(../../../assert boostorg/assert)
+add_subdirectory(../../../core boostorg/core)
+add_subdirectory(../../../config boostorg/config)
+add_subdirectory(../../../smart_ptr boostorg/smart_ptr)
+add_subdirectory(../../../throw_exception boostorg/throw_exception)
+
+add_subdirectory(../../ boostorg/conversion)
+
+enable_testing()
+
+if (BOOST_USE_MODULES)
+    add_executable(boost_conversion_module_usage ../../modules/usage_sample.cpp)
+    target_link_libraries(boost_conversion_module_usage PRIVATE Boost::conversion Boost::smart_ptr)
+    add_test(NAME boost_conversion_module_usage COMMAND boost_conversion_module_usage)
+endif()

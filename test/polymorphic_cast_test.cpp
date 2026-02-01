@@ -20,7 +20,7 @@
 #include <boost/smart_ptr/intrusive_ptr.hpp>
 #include <boost/smart_ptr/intrusive_ref_counter.hpp>
 #include <boost/core/lightweight_test.hpp>
-#include <string>
+
 #include <memory>
 
 static bool expect_assertion = false;
@@ -42,7 +42,7 @@ void boost::assertion_failed( char const * expr, char const * function, char con
     {
         BOOST_ERROR( "unexpected assertion" );
 
-        BOOST_LIGHTWEIGHT_TEST_OSTREAM
+        std::cerr
           << file << "(" << line << "): assertion '" << expr << "' failed in function '"
           << function << "'" << std::endl;
     }

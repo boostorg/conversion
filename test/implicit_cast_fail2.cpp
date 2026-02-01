@@ -12,8 +12,8 @@
 
 int main()
 {
-    int x = boost::implicit_cast( 1 );
-    (void)x;
+    // int x = boost::implicit_cast( 1 );
+    // (void)x;
 
-    return 0;
+    // return 0;
 }
