@@ -16,7 +16,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        cmake_cxx_standard: ["", 20, 23, 26]
         include:
           - toolset: gcc-14  # Do not remove! It is the only toolset that tests CMake tests down below
             cxxstd: "03,11,14,17,20"
@@ -27,17 +26,40 @@ jobs:
             cxxflags: "cxxflags=--coverage -fsanitize=address,leak,undefined -fno-sanitize-recover=undefined"
             linkflags: "linkflags=--coverage -lasan -lubsan"
             gcov_tool: "gcov-12"
-            cmake_cxx_standard: ""
           - toolset: clang-14
             compiler: clang++-14
             cxxstd: "03,11,14,17,2a"
             os: ubuntu-22.04
-            cmake_cxx_standard: ""
           - toolset: clang-19
             compiler: clang++-19
-            cxxstd: "20,23"
+            cxxstd: "20,23,26"
+            cmake_cxx_standard: ""
             os: ubuntu-24.04
-            install: clang-19 llvm-19 libclang-rt-19-dev libc++-19-dev libc++abi-19-dev clang-tools-19
+            install: &cxx19
+              - clang-19
+              - llvm-19
+              - libclang-rt-19-dev
+              - libc++-19-dev
+              - libc++abi-19-dev
+              - clang-tools-19
+          - toolset: clang-19
+            compiler: clang++-19
+            cxxstd: "20,23,26"
+            cmake_cxx_standard: 20
+            os: ubuntu-24.04
+            install: *cxx19
+          - toolset: clang-19
+            compiler: clang++-19
+            cxxstd: "20,23,26"
+            cmake_cxx_standard: 23
+            os: ubuntu-24.04
+            install: *cxx19
+          - toolset: clang-19
+            compiler: clang++-19
+            cxxstd: "20,23,26"
+            cmake_cxx_standard: 26
+            os: ubuntu-24.04
+            install: *cxx19
 
     runs-on: ${{matrix.os}}
 
@@ -46,7 +68,7 @@ jobs:
 
       - name: Install packages
         if: matrix.install
-        run: sudo apt install ${{matrix.install}}
+        run: sudo apt install -y ${{join(matrix.install, ' ')}}
 
       - name: Setup Boost
         run: |
