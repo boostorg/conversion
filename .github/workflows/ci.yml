@@ -125,7 +125,7 @@ jobs:
                 -DBOOST_USE_MODULES=1 \
                 -DBUILD_TESTING=1 \
                  ${{ matrix.cmake_cxx_standard != '' && format('-DCMAKE_CXX_STANDARD={0}', matrix.cmake_cxx_standard) || '' }} \
-                -DCMAKE_CXX_COMPILER=clang++-19 \
+                -DCMAKE_CXX_COMPILER=${{matrix.compiler}} \
                 -DCMAKE_CXX_MODULE_STD=ON \
                 -DCMAKE_EXPERIMENTAL_CXX_IMPORT_STD=0e5b6991-d74f-4b3d-a41c-cf096e0b2508 \
                 -DCMAKE_CXX_FLAGS=-stdlib=libc++
@@ -143,7 +143,7 @@ jobs:
                 -DBOOST_USE_MODULES=1 \
                 -DBUILD_TESTING=1 \
                  ${{ matrix.cmake_cxx_standard != '' && format('-DCMAKE_CXX_STANDARD={0}', matrix.cmake_cxx_standard) || '' }} \
-                -DCMAKE_CXX_COMPILER=clang++-19
+                -DCMAKE_CXX_COMPILER=${{matrix.compiler}}
           cmake --build build_module
           ctest --test-dir build_module -VV
           rm -rf build_module
