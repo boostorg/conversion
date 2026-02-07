@@ -31,11 +31,9 @@ jobs:
             linkflags: "linkflags=--coverage -lasan -lubsan"
             gcov_tool: "gcov-12"
           - toolset: clang-14
-            compiler: clang++-14
             cxxstd: "03,11,14,17,2a"
             os: ubuntu-22.04
           - toolset: clang-19
-            compiler: clang++-19
             cxxstd: "20"
             cmake_cxx_standard: ""
             os: ubuntu-24.04
@@ -47,25 +45,22 @@ jobs:
               - libc++abi-19-dev
               - clang-tools-19
           - toolset: clang-19
-            compiler: clang++-19
             cxxstd: "20"
             cmake_cxx_standard: 20
             os: ubuntu-24.04
             install: *cxx19
           - toolset: clang-19
-            compiler: clang++-19
             cxxstd: "23"
             cmake_cxx_standard: 23
             os: ubuntu-24.04
             install: *cxx19
           - toolset: clang-19
-            compiler: clang++-19
             cxxstd: "26"
             cmake_cxx_standard: 26
             os: ubuntu-24.04
             install: *cxx19
     
-    name: ${{matrix.os}}, ${{matrix.toolset}}, ${{matrix.compiler}}, ${{matrix.cxxstd}}
+    name: ${{matrix.os}}, ${{matrix.toolset}}, ${{matrix.cxxstd}}
 
     runs-on: ${{matrix.os}}
 
