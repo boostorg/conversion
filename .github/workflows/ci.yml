@@ -85,7 +85,7 @@ jobs:
         if: ${{matrix.toolset == 'clang-19'}}
         run: |
           cd ../boost-root/libs/$LIBRARY
-          cmake -S test/cmake_test_dir \
+          cmake -S test/cmake_subdir_test \
                 -B build_module \
                 -GNinja \
                 -DBOOST_USE_MODULES=1 \
