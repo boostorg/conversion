@@ -1,9 +1,5 @@
 module;
 
-#ifdef __clang__
-#   pragma clang diagnostic ignored "-Winclude-angled-in-module-purview"
-#endif
-
 #include <boost/config.hpp>
 #include <boost/config/workaround.hpp>
 #include <boost/throw_exception.hpp>
@@ -22,6 +18,10 @@ export module boost.conversion;
 
 #ifdef BOOST_CONVERSION_USE_STD_MODULE
 import std;
+#endif
+
+#ifdef __clang__
+#   pragma clang diagnostic ignored "-Winclude-angled-in-module-purview"
 #endif
 
 #include <boost/implicit_cast.hpp>
