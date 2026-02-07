@@ -18,6 +18,11 @@ enable_testing()
 
 if (BOOST_USE_MODULES)
     add_executable(boost_conversion_module_usage ../../modules/usage_sample.cpp)
-    target_link_libraries(boost_conversion_module_usage PRIVATE Boost::conversion Boost::smart_ptr)
+    target_link_libraries(boost_conversion_module_usage PRIVATE Boost::conversion)
     add_test(NAME boost_conversion_module_usage COMMAND boost_conversion_module_usage)
+
+    # Make sure that mixing includes and imports is fine for different TU
+    add_executable(boost_conversion_module_usage_mu ../../modules/usage_test_mu1.cpp ../../modules/usage_test_mu2.cpp)
+    target_link_libraries(boost_conversion_module_usage_mu PRIVATE Boost::conversion)
+    add_test(NAME boost_conversion_module_usage_mu COMMAND boost_conversion_module_usage_mu)
 endif()
