@@ -6,7 +6,6 @@
 module;
 
 #include <boost/config.hpp>
-#include <boost/config/workaround.hpp>
 #include <boost/throw_exception.hpp>
 #include <boost/assert.hpp>
 #include <boost/pointer_cast.hpp>
