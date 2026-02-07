@@ -16,6 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        cmake_cxx_standard: ["", 20, 23, 26]
         include:
           - toolset: gcc-14  # Do not remove! It is the only toolset that tests CMake tests down below
             cxxstd: "03,11,14,17,20"
@@ -26,14 +27,15 @@ jobs:
             cxxflags: "cxxflags=--coverage -fsanitize=address,leak,undefined -fno-sanitize-recover=undefined"
             linkflags: "linkflags=--coverage -lasan -lubsan"
             gcov_tool: "gcov-12"
+            cmake_cxx_standard: ""
           - toolset: clang-14
             compiler: clang++-14
             cxxstd: "03,11,14,17,2a"
             os: ubuntu-22.04
+            cmake_cxx_standard: ""
           - toolset: clang-19
             compiler: clang++-19
             cxxstd: "20,23"
-            cmake_cxxstd: [20, 23, 26]
             os: ubuntu-24.04
             install: clang-19 llvm-19 libclang-rt-19-dev libc++-19-dev libc++abi-19-dev clang-tools-19
 
@@ -74,12 +76,13 @@ jobs:
         if: ${{matrix.toolset == 'gcc-14' || matrix.toolset == 'clang-19'}}
         run: |
           cd ../boost-root/
-          mkdir __build
-          cd __build
-          cmake -DBUILD_TESTING=1 -DBOOST_INCLUDE_LIBRARIES=conversion -DCMAKE_CXX_COMPILER=g++-14 -DCMAKE_C_COMPILER=gcc-14 ..
-          cmake --build . --target tests
+          cmake -S . -B __build \
+                -DBUILD_TESTING=1 \
+                -DBOOST_INCLUDE_LIBRARIES=conversion \
+                -DCMAKE_CXX_COMPILER=g++-14 \
+                 ${{ matrix.cmake_cxx_standard != '' && format('-DCMAKE_CXX_STANDARD={0}', matrix.cmake_cxx_standard) || '' }}
+          cmake --build __build --target tests
           ctest --output-on-failure --no-tests=error
-          cd ..
           rm -rf __build
       
       - name: Run modules tests
@@ -91,7 +94,7 @@ jobs:
                 -GNinja \
                 -DBOOST_USE_MODULES=1 \
                 -DBUILD_TESTING=1 \
-                -DCMAKE_CXX_STANDARD=${{matrix.cmake_cxxstd}}
+                 ${{ matrix.cmake_cxx_standard != '' && format('-DCMAKE_CXX_STANDARD={0}', matrix.cmake_cxx_standard) || '' }} \
                 -DCMAKE_CXX_COMPILER=clang++-19 \
                 -DCMAKE_CXX_MODULE_STD=ON \
                 -DCMAKE_EXPERIMENTAL_CXX_IMPORT_STD=0e5b6991-d74f-4b3d-a41c-cf096e0b2508 \
@@ -109,7 +112,7 @@ jobs:
                 -GNinja \
                 -DBOOST_USE_MODULES=1 \
                 -DBUILD_TESTING=1 \
-                -DCMAKE_CXX_STANDARD=${{matrix.cmake_cxxstd}} \
+                 ${{ matrix.cmake_cxx_standard != '' && format('-DCMAKE_CXX_STANDARD={0}', matrix.cmake_cxx_standard) || '' }} \
                 -DCMAKE_CXX_COMPILER=clang++-19
           cmake --build build_module
           ctest --test-dir build_module -VV
