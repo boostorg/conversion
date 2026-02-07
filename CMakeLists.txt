@@ -41,6 +41,6 @@ target_link_libraries(boost_conversion
         Boost::smart_ptr
 )
 
-if(BUILD_TESTING AND NOT BOOST_USE_MODULES)
+if(BUILD_TESTING)
   add_subdirectory(test)
 endif()

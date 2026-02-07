@@ -14,12 +14,13 @@
 //
 
 #define BOOST_ENABLE_ASSERT_HANDLER
-#include <boost/polymorphic_cast.hpp>
-#include <boost/polymorphic_pointer_cast.hpp>
 #include <boost/smart_ptr/shared_ptr.hpp>
 #include <boost/smart_ptr/intrusive_ptr.hpp>
 #include <boost/smart_ptr/intrusive_ref_counter.hpp>
 #include <boost/core/lightweight_test.hpp>
+
+#include <boost/polymorphic_cast.hpp>
+#include <boost/polymorphic_pointer_cast.hpp>
 
 #include <memory>
 
