@@ -32,7 +32,7 @@ jobs:
             os: ubuntu-22.04
           - toolset: clang-19
             compiler: clang++-19
-            cxxstd: "20,23,26"
+            cxxstd: "20"
             cmake_cxx_standard: ""
             os: ubuntu-24.04
             install: &cxx19
@@ -44,22 +44,24 @@ jobs:
               - clang-tools-19
           - toolset: clang-19
             compiler: clang++-19
-            cxxstd: "20,23,26"
+            cxxstd: "20"
             cmake_cxx_standard: 20
             os: ubuntu-24.04
             install: *cxx19
           - toolset: clang-19
             compiler: clang++-19
-            cxxstd: "20,23,26"
+            cxxstd: "23"
             cmake_cxx_standard: 23
             os: ubuntu-24.04
             install: *cxx19
           - toolset: clang-19
             compiler: clang++-19
-            cxxstd: "20,23,26"
+            cxxstd: "26"
             cmake_cxx_standard: 26
             os: ubuntu-24.04
             install: *cxx19
+    
+    name: ${{matrix.os}}, ${{matrix.toolset}}, ${{matrix.compiler}}, ${{matrix.cxxstd}}
 
     runs-on: ${{matrix.os}}
 
