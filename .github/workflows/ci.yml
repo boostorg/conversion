@@ -2,6 +2,10 @@ name: CI
 
 on:
   pull_request:
+    branches:
+      - develop
+      - feature/**
+    types: [closed]
   push:
     branches:
       - master
