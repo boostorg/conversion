@@ -82,7 +82,7 @@ jobs:
                 -DCMAKE_CXX_COMPILER=g++-14 \
                  ${{ matrix.cmake_cxx_standard != '' && format('-DCMAKE_CXX_STANDARD={0}', matrix.cmake_cxx_standard) || '' }}
           cmake --build __build --target tests
-          ctest --output-on-failure --no-tests=error
+          ctest --test-dir __build --output-on-failure --no-tests=error
           rm -rf __build
       
       - name: Run modules tests
