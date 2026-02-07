@@ -57,8 +57,8 @@
 #   pragma once
 #endif
 
-#include <boost/assert.hpp>
 #if !defined(BOOST_CONVERSION_INTERFACE_UNIT)
+# include <boost/assert.hpp>
 # include <boost/throw_exception.hpp>
 
 # include <memory>  // std::addressof
