@@ -6,7 +6,11 @@ if(NOT TARGET tests)
   add_custom_target(tests)
 endif()
 
-file(GLOB TEST_SOURCES "*.cpp")
+set(TEST_SOURCES
+  cast_test.cpp
+  implicit_cast.cpp
+  polymorphic_cast_test.cpp
+)
 foreach (testsourcefile ${TEST_SOURCES})
     get_filename_component(testname ${testsourcefile} NAME_WE)
     add_executable(conversion_${testname} ${testsourcefile})

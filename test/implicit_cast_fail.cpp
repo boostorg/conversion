@@ -14,7 +14,7 @@ struct foo
 
 int main()
 {
-    // foo x = implicit_cast<foo>("foobar");
-    // (void)x;            // warning suppression.
-    // return 0;
+    foo x = implicit_cast<foo>("foobar");
+    (void)x;            // warning suppression.
+    return 0;
 }
