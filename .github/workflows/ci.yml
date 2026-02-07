@@ -32,7 +32,8 @@ jobs:
             os: ubuntu-22.04
           - toolset: clang-19
             compiler: clang++-19
-            cxxstd: "20,23,26"
+            cxxstd: "20,23"
+            cmake_cxxstd: [20, 23, 26]
             os: ubuntu-24.04
             install: clang-19 llvm-19 libclang-rt-19-dev libc++-19-dev libc++abi-19-dev clang-tools-19
 
@@ -81,6 +82,24 @@ jobs:
           cd ..
           rm -rf __build
       
+      - name: Run modules tests
+        if: ${{matrix.toolset == 'clang-19'}}
+        run: |
+          cd ../boost-root/libs/$LIBRARY
+          cmake -S test/cmake_subdir_test \
+                -B build_module \
+                -GNinja \
+                -DBOOST_USE_MODULES=1 \
+                -DBUILD_TESTING=1 \
+                -DCMAKE_CXX_STANDARD=${{matrix.cmake_cxxstd}}
+                -DCMAKE_CXX_COMPILER=clang++-19 \
+                -DCMAKE_CXX_MODULE_STD=ON \
+                -DCMAKE_EXPERIMENTAL_CXX_IMPORT_STD=0e5b6991-d74f-4b3d-a41c-cf096e0b2508 \
+                -DCMAKE_CXX_FLAGS=-stdlib=libc++
+          cmake --build build_module
+          ctest --test-dir build_module -VV
+          rm -rf build_module
+      
       - name: Run modules tests without 'import std;'
         if: ${{matrix.toolset == 'clang-19'}}
         run: |
@@ -90,6 +109,7 @@ jobs:
                 -GNinja \
                 -DBOOST_USE_MODULES=1 \
                 -DBUILD_TESTING=1 \
+                -DCMAKE_CXX_STANDARD=${{matrix.cmake_cxxstd}} \
                 -DCMAKE_CXX_COMPILER=clang++-19
           cmake --build build_module
           ctest --test-dir build_module -VV
