@@ -12,9 +12,9 @@ add_subdirectory(../../../config boostorg/config)
 add_subdirectory(../../../smart_ptr boostorg/smart_ptr)
 add_subdirectory(../../../throw_exception boostorg/throw_exception)
 
-add_subdirectory(../../ boostorg/conversion)
 
 enable_testing()
+add_subdirectory(../../ boostorg/conversion)
 
 if (BOOST_USE_MODULES)
     add_executable(boost_conversion_module_usage ../../modules/usage_sample.cpp)
