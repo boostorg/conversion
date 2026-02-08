@@ -7,10 +7,10 @@
 #define BOOST_CONVERSION_DETAIL_CONFIG_HPP
 
 #if !defined(BOOST_CONVERSION_INTERFACE_UNIT)
-#include <boost/config.hpp>
-#ifdef BOOST_HAS_PRAGMA_ONCE
-#pragma once
-#endif
+# include <boost/config.hpp>
+# ifdef BOOST_HAS_PRAGMA_ONCE
+# pragma once
+# endif
 #endif
 
 #ifdef BOOST_CONVERSION_INTERFACE_UNIT
