@@ -371,14 +371,19 @@ int main()
     test_polymorphic_pointer_downcast_intrusive();
     test_polymorphic_cast_fail();
     test_polymorphic_pointer_cast_fail();
+
+// NOTE: this tests depend on BOOST_ASSERT macro implementation substitution
+// implemented via BOOST_ENABLE_ASSERT_HANDLER macro.
+// Such mechanism is not possible with modules because
+// module import in TU do not inherit defined TU's macroses.
+#ifndef BOOST_USE_MODULES
     test_polymorphic_downcast_fail();
     test_polymorphic_pointer_downcast_builtin_fail();
     test_polymorphic_pointer_downcast_boost_shared_fail();
     test_polymorphic_pointer_downcast_intrusive_fail();
-
     test_polymorphic_pointer_downcast_std_shared();
     test_polymorphic_pointer_downcast_std_shared_fail();
-
+#endif
 
     return boost::report_errors();
 }
