@@ -1,7 +1,7 @@
 //  boost polymorphic_cast.hpp header file  ----------------------------------------------//
-
-//  (C) Copyright Kevlin Henney and Dave Abrahams 1999.
-//  (C) Copyright Boris Rasin 2014.
+//  (C) Copyright Kevlin Henney and Dave Abrahams, 1999.
+//  (C) Copyright Boris Rasin, 2014.
+//  (C) Copyright Fedor Osetrov, 2025-2026.
 //  Distributed under the Boost
 //  Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -9,6 +9,7 @@
 //  See http://www.boost.org/libs/conversion for Documentation.
 
 //  Revision History
+//  08 Fed 26  introduced C++20 modules support
 //  10 Nov 14  polymorphic_pointer_downcast moved to a separate header,
 //             minor improvements to stisfy latest Boost coding style
 //  08 Nov 14  Add polymorphic_pointer_downcast (Boris Rasin)

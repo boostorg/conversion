@@ -7,6 +7,7 @@
 // Copyright 2014 Peter Dimov
 // Copyright 2014 Boris Rasin, Antony Polukhin
 // Copyright 2023 Antony Polukhin
+// Copyright 2025-2026 Fedor Osetrov
 //
 // Distributed under the Boost Software License, Version 1.0.
 //
